@@ -1,0 +1,18 @@
+module ring_osc_fpga (
+    input wire enable,
+    output wire out
+);
+    // Prevent optimization
+    (* DONT_TOUCH = "true" *) wire n0, n1, n2, n3, n4;
+
+    // Inverter chain with odd stages
+    assign n0 = enable ? ~n4 : 1'b0;
+    assign n1 = ~n0;
+    assign n2 = ~n1;
+    assign n3 = ~n2;
+    assign n4 = ~n3;
+
+    // Output from one node in the ring
+    assign out = n2;
+
+endmodule
